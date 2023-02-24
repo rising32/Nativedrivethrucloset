@@ -20,8 +20,6 @@ const AuthLayout = ({children, welcomeText}: Props) => {
       keyboardShouldPersistTaps="handled"
       style={{maxWidth: 360}}>
       <AvoidSoftInputView
-        avoidOffset={10}
-        easing="linear"
         style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <StaticImage source={LogoGVImg} imageWidth={250} />
         <Text
