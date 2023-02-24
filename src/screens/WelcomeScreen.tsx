@@ -12,6 +12,7 @@ const WelcomeScreen = ({navigation}: WelcomeScreenProp) => {
         alignItems: 'center',
         justifyContent: 'center',
         rowGap: 20,
+        backgroundColor: 'white',
       }}>
       <StaticImage source={LogoGVImg} imageWidth={250} />
       <Text>Let's go for a Fashionable Spin</Text>

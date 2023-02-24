@@ -12,6 +12,7 @@ const PublicScreens = () => (
     initialRouteName={PUBLICSCREENS.WELCOME}
     screenOptions={{
       headerShown: false,
+      navigationBarColor: 'white',
     }}>
     <PublicStack.Screen
       name={PUBLICSCREENS.WELCOME}

@@ -27,3 +27,7 @@ export type WelcomeScreenProp = NativeStackScreenProps<
   PublicRootStackParamList,
   PUBLICSCREENS.WELCOME
 >;
+export type LoginScreenProp = NativeStackScreenProps<
+  PublicRootStackParamList,
+  PUBLICSCREENS.LOGIN
+>;
