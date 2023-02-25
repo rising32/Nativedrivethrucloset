@@ -139,7 +139,7 @@ const SignUpForm = ({navigation}: Props) => {
           borderWidth: 1,
         }}
         onPress={() => {
-          navigation.replace(PUBLICSCREENS.SIGNUP);
+          navigation.replace(PUBLICSCREENS.LOGIN);
         }}>
         <Text>Login</Text>
       </Pressable>

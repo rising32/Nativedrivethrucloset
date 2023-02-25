@@ -14,7 +14,7 @@ const WelcomeScreen = ({navigation}: WelcomeScreenProp) => {
         rowGap: 20,
         backgroundColor: 'white',
       }}>
-      <StaticImage source={LogoGVImg} imageWidth={250} />
+      <StaticImage source={LogoGVImg} imageWidth={220} />
       <Text>Let's go for a Fashionable Spin</Text>
       <TouchableOpacity
         style={{
