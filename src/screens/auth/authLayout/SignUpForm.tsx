@@ -17,6 +17,7 @@ import {
 type LoginData = {
   name: string;
   password: string;
+  confirmPassword: string;
 };
 
 const SingleInput = React.forwardRef<TextInput, TextInputProps>(
@@ -30,11 +31,11 @@ const SingleInput = React.forwardRef<TextInput, TextInputProps>(
 type Props = {
   navigation: StackNavigationProp<
     PublicRootStackParamList,
-    PUBLICSCREENS.LOGIN,
+    PUBLICSCREENS.SIGNUP,
     undefined
   >;
 };
-const LoginForm = ({navigation}: Props) => {
+const SignUpForm = ({navigation}: Props) => {
   const {
     control,
     handleSubmit,
@@ -43,6 +44,7 @@ const LoginForm = ({navigation}: Props) => {
     defaultValues: {
       name: '',
       password: '',
+      confirmPassword: '',
     },
   });
   const onSubmit = (data: LoginData) => {
@@ -93,6 +95,25 @@ const LoginForm = ({navigation}: Props) => {
         name="password"
       />
       {errors.password && <Text>This is required.</Text>}
+      <Text style={styles.labelText}>Confirm Password</Text>
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+          minLength: 3,
+          maxLength: 100,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <SingleInput
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder="Input your confirm password"
+          />
+        )}
+        name="confirmPassword"
+      />
+      {errors.confirmPassword && <Text>This is required.</Text>}
 
       <Pressable
         style={{
@@ -105,7 +126,7 @@ const LoginForm = ({navigation}: Props) => {
           marginVertical: 15,
         }}
         onPress={handleSubmit(onSubmit)}>
-        <Text style={{color: 'white'}}>Login</Text>
+        <Text style={{color: 'white'}}>Sign Up</Text>
       </Pressable>
       <Pressable
         style={{
@@ -120,7 +141,7 @@ const LoginForm = ({navigation}: Props) => {
         onPress={() => {
           navigation.replace(PUBLICSCREENS.SIGNUP);
         }}>
-        <Text>Sign up</Text>
+        <Text>Login</Text>
       </Pressable>
     </View>
   );
@@ -142,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginForm;
+export default SignUpForm;

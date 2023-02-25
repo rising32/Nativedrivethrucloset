@@ -1,9 +1,10 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native';
 import AuthLayout from './authLayout/AuthLayout';
-import LoginForm from './authLayout/LoginForm';
+import {SignUpScreenProp} from '../../navigation/types';
+import SignUpForm from './authLayout/SignUpForm';
 
-const SignupScreen = () => {
+const SignUpScreen = ({navigation}: SignUpScreenProp) => {
   return (
     <SafeAreaView
       style={{
@@ -14,10 +15,10 @@ const SignupScreen = () => {
         backgroundColor: 'white',
       }}>
       <AuthLayout welcomeText="Create your account">
-        <LoginForm />
+        <SignUpForm navigation={navigation} />
       </AuthLayout>
     </SafeAreaView>
   );
 };
 
-export default SignupScreen;
+export default SignUpScreen;

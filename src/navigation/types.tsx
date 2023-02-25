@@ -1,4 +1,4 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackScreenProps} from '@react-navigation/stack';
 
 export type PublicRootStackParamList = {
   Welcome: undefined;
@@ -23,11 +23,15 @@ export enum AUTHENTICATEDSCREENS {
   PROFILE = 'profile',
 }
 
-export type WelcomeScreenProp = NativeStackScreenProps<
+export type WelcomeScreenProp = StackScreenProps<
   PublicRootStackParamList,
   PUBLICSCREENS.WELCOME
 >;
-export type LoginScreenProp = NativeStackScreenProps<
+export type LoginScreenProp = StackScreenProps<
   PublicRootStackParamList,
   PUBLICSCREENS.LOGIN
+>;
+export type SignUpScreenProp = StackScreenProps<
+  PublicRootStackParamList,
+  PUBLICSCREENS.SIGNUP
 >;
