@@ -15,7 +15,8 @@ import {
 } from '../../../navigation/types';
 import {sendLogin} from '../../../services/UserService';
 import {useSetRecoilState} from 'recoil';
-import {clothState, outfitState, userState} from '../../../recoil/atoms';
+import {clothListState, outfitState, userState} from '../../../recoil/atoms';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type LoginData = {
   name: string;
@@ -39,7 +40,7 @@ type Props = {
 };
 const LoginForm = ({navigation}: Props) => {
   const setUser = useSetRecoilState(userState);
-  const setClothes = useSetRecoilState(clothState);
+  const setClothes = useSetRecoilState(clothListState);
   const setOutfites = useSetRecoilState(outfitState);
   const [error, setError] = React.useState(false);
   const {
@@ -59,6 +60,8 @@ const LoginForm = ({navigation}: Props) => {
         setUser(response.user);
         setClothes(response.clothes);
         setOutfites(response.outfits);
+
+        await AsyncStorage.setItem('@user', JSON.stringify(data));
       } else {
         setError(true);
       }

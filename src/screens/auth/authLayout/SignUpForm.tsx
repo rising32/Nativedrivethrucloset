@@ -15,7 +15,7 @@ import {
 } from '../../../navigation/types';
 import {sendRegister, sendLogin} from '../../../services/UserService';
 import {useSetRecoilState} from 'recoil';
-import {clothState, outfitState, userState} from '../../../recoil/atoms';
+import {clothListState, outfitState, userState} from '../../../recoil/atoms';
 
 type LoginData = {
   name: string;
@@ -40,7 +40,7 @@ type Props = {
 };
 const SignUpForm = ({navigation}: Props) => {
   const setUser = useSetRecoilState(userState);
-  const setClothes = useSetRecoilState(clothState);
+  const setClothes = useSetRecoilState(clothListState);
   const setOutfites = useSetRecoilState(outfitState);
   const [error, setError] = React.useState(false);
   const {

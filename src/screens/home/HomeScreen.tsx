@@ -1,26 +1,29 @@
 import {format} from 'date-fns';
 import React from 'react';
-import {View, Text, FlatList, Dimensions, Image} from 'react-native';
+import {Text, ScrollView} from 'react-native';
 import {useRecoilValue} from 'recoil';
-import {filteredClothTopListState} from '../../recoil/selectors';
-import {ICloth} from '../../recoil/interface';
+import {
+  clothTopListFilterState,
+  filteredClothTopListState,
+  filteredClothMiddleListState,
+  clothMiddleListFilterState,
+  filteredClothBottomListState,
+  clothBottomListFilterState,
+} from '../../recoil/atoms';
+import CloseItem from './clothItem/CloseItem';
 
-const width = Dimensions.get('window').width;
 const HomeScreen = () => {
   const today = format(new Date(), 'dd/MM/yyyy k:m:s');
-  const todoList = useRecoilValue(filteredClothTopListState);
-  const Item = ({item}: {item: ICloth}) => {
-    return (
-      <View>
-        <Image
-          source={{uri: item.url}}
-          style={{width: 400, height: 400, borderRadius: 15}}
-        />
-      </View>
-    );
-  };
+  const topList = useRecoilValue(filteredClothTopListState);
+  const topTitle = useRecoilValue(clothTopListFilterState);
+  const middleList = useRecoilValue(filteredClothMiddleListState);
+  const middleTitle = useRecoilValue(clothMiddleListFilterState);
+  const bottomList = useRecoilValue(filteredClothBottomListState);
+  const bottomTitle = useRecoilValue(clothBottomListFilterState);
+
   return (
-    <View>
+    <ScrollView
+      contentContainerStyle={{alignItems: 'center', paddingBottom: 100}}>
       <Text
         style={{
           fontSize: 16,
@@ -29,40 +32,35 @@ const HomeScreen = () => {
         }}>
         {today}
       </Text>
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'red',
-        }}>
-        <View
-          style={{
-            borderRadius: 15,
-            marginTop: 25,
-            borderWidth: 4,
-            borderColor: 'black',
-            borderStyle: 'solid',
-            margin: 20,
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 400,
-            height: 400,
-          }}>
-          <FlatList
-            data={todoList}
-            renderItem={({item}) => <Item item={item} />}
-            keyExtractor={item => item._id}
-            horizontal
-            snapToInterval={400}
-            decelerationRate={0.95}
-            contentContainerStyle={{
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          />
-        </View>
-      </View>
-    </View>
+      <CloseItem
+        title={topTitle}
+        position="top"
+        itemList={topList}
+        menuList={[
+          'coats',
+          'jackets',
+          'blazers',
+          'cardigans',
+          'sweaters',
+          'shirts',
+          'tshirts',
+        ]}
+      />
+      <CloseItem
+        title={middleTitle}
+        position="middle"
+        itemList={middleList}
+        menuList={['pants', 'skirts', 'shorts', 'jumpsuits', 'dresses']}
+        additionalStyle={{marginTop: 30}}
+      />
+      <CloseItem
+        title={bottomTitle}
+        position="bottom"
+        itemList={bottomList}
+        menuList={['bags', 'shoes', 'accessories']}
+        additionalStyle={{marginTop: 30}}
+      />
+    </ScrollView>
   );
 };
 
