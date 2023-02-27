@@ -25,7 +25,7 @@ const Root = () => {
       // setUser(null);
     }
   }
-  return <NavigationRoot onReady={navigationReady} authenticated={false} />;
+  return <NavigationRoot onReady={navigationReady} />;
 };
 
 export default Root;

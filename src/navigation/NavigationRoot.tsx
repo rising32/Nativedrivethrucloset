@@ -5,17 +5,16 @@ import AppNavigator from './AppNavigator';
 
 type Props = {
   onReady: () => void;
-  authenticated: boolean;
 };
 
-const NavigationRoot = ({onReady, authenticated}: Props) => {
+const NavigationRoot = ({onReady}: Props) => {
   return (
     <NavigationContainer
       fallback={
         <FullScreenLoadingIndicator loadingText="Navigation Fallback Loader" />
       }
       onReady={onReady}>
-      <AppNavigator authenticated={authenticated} />
+      <AppNavigator />
     </NavigationContainer>
   );
 };

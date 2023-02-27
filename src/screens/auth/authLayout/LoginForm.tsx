@@ -13,8 +13,11 @@ import {
   PUBLICSCREENS,
   PublicRootStackParamList,
 } from '../../../navigation/types';
+import {sendLogin} from '../../../services/UserService';
+import {useSetRecoilState} from 'recoil';
+import {clothState, outfitState, userState} from '../../../recoil/atoms';
 
-type LoginData = {
+export type LoginData = {
   name: string;
   password: string;
 };
@@ -35,6 +38,10 @@ type Props = {
   >;
 };
 const LoginForm = ({navigation}: Props) => {
+  const setUser = useSetRecoilState(userState);
+  const setClothes = useSetRecoilState(clothState);
+  const setOutfites = useSetRecoilState(outfitState);
+  const [error, setError] = React.useState(false);
   const {
     control,
     handleSubmit,
@@ -45,8 +52,19 @@ const LoginForm = ({navigation}: Props) => {
       password: '',
     },
   });
-  const onSubmit = (data: LoginData) => {
-    console.log(data);
+  const onSubmit = async (data: LoginData) => {
+    try {
+      const response = await sendLogin(data);
+      if (response.success) {
+        setUser(response.user);
+        setClothes(response.clothes);
+        setOutfites(response.outfits);
+      } else {
+        setError(true);
+      }
+    } catch (err) {
+      console.log('error=', err);
+    }
   };
   return (
     <View
@@ -72,7 +90,7 @@ const LoginForm = ({navigation}: Props) => {
         )}
         name="name"
       />
-      {errors.name && <Text>This is required.</Text>}
+      {errors.name && <Text style={{color: 'red'}}>This is required.</Text>}
 
       <Text style={styles.labelText}>Password</Text>
       <Controller
@@ -92,7 +110,8 @@ const LoginForm = ({navigation}: Props) => {
         )}
         name="password"
       />
-      {errors.password && <Text>This is required.</Text>}
+      {errors.password && <Text style={{color: 'red'}}>This is required.</Text>}
+      {error && <Text style={{color: 'red'}}>Name or password is wrong</Text>}
 
       <Pressable
         style={{

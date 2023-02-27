@@ -1,13 +1,12 @@
 import React from 'react';
 import PublicScreens from './PublicScreens';
 import AuthScreens from './AuthScreens';
+import {useRecoilValue} from 'recoil';
+import {userState} from '../../recoil/atoms';
 
-type Props = {
-  authenticated: boolean;
-};
-
-const AppNavigator = ({authenticated}: Props) => {
-  if (authenticated) {
+const AppNavigator = () => {
+  const user = useRecoilValue(userState);
+  if (user) {
     return <AuthScreens />;
   }
   return <PublicScreens />;

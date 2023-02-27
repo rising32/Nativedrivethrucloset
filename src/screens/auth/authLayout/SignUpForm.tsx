@@ -13,6 +13,9 @@ import {
   PUBLICSCREENS,
   PublicRootStackParamList,
 } from '../../../navigation/types';
+import {sendRegister, sendLogin} from '../../../services/UserService';
+import {useSetRecoilState} from 'recoil';
+import {clothState, outfitState, userState} from '../../../recoil/atoms';
 
 type LoginData = {
   name: string;
@@ -36,6 +39,10 @@ type Props = {
   >;
 };
 const SignUpForm = ({navigation}: Props) => {
+  const setUser = useSetRecoilState(userState);
+  const setClothes = useSetRecoilState(clothState);
+  const setOutfites = useSetRecoilState(outfitState);
+  const [error, setError] = React.useState(false);
   const {
     control,
     handleSubmit,
@@ -47,8 +54,27 @@ const SignUpForm = ({navigation}: Props) => {
       confirmPassword: '',
     },
   });
-  const onSubmit = (data: LoginData) => {
-    console.log(data);
+  const onSubmit = async (data: LoginData) => {
+    try {
+      const response = await sendRegister({
+        name: data.name,
+        password: data.password,
+      });
+      if (response.success) {
+        const loginRes = await sendLogin(data);
+        if (loginRes.success) {
+          setUser(loginRes.user);
+          setClothes(loginRes.clothes);
+          setOutfites(loginRes.outfits);
+        } else {
+          setError(true);
+        }
+      } else {
+        setError(true);
+      }
+    } catch (err) {
+      console.log('error=', err);
+    }
   };
   return (
     <View
@@ -114,6 +140,7 @@ const SignUpForm = ({navigation}: Props) => {
         name="confirmPassword"
       />
       {errors.confirmPassword && <Text>This is required.</Text>}
+      {error && <Text style={{color: 'red'}}>Sign Up failed</Text>}
 
       <Pressable
         style={{
