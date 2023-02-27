@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {IUser, ICloth, IOutfite} from './../recoil/interface';
+import {IUser, ICloth, IOutfit} from './../recoil/interface';
 import {LoginData} from './../screens/auth/authLayout/LoginForm';
 import Config from 'react-native-config';
 
@@ -15,7 +15,11 @@ export type ILoginRes = {
   success: boolean;
   user: IUser;
   clothes: ICloth[];
-  outfits: IOutfite[];
+  outfits: IOutfit[];
+};
+export type IOutfitData = {
+  userId: string;
+  outfit: IOutfit[];
 };
 // export const sendLogin = (data: LoginData) => {
 //   apiClient.post<ILoginRes>('/logIn', data).then(res => {
@@ -28,6 +32,10 @@ export const sendLogin = async (data: LoginData) => {
 };
 export const sendRegister = async (data: LoginData) => {
   const res = await apiClient.post<ILoginRes>('/signUp', data);
+  return res.data;
+};
+export const sendNewOutfit = async (outfit: IOutfitData) => {
+  const res = await apiClient.post<IOutfit[]>('/saveOutfit', outfit);
   return res.data;
 };
 
