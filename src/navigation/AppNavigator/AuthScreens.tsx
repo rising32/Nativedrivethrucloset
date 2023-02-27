@@ -86,6 +86,33 @@ const AuthScreens = () => {
       <BottomStack.Screen
         name={AUTHENTICATEDSCREENS.PROFILE}
         component={ProfileScreen}
+        options={{
+          title: 'Profile',
+          headerTitleAlign: 'center',
+          headerRightContainerStyle: {
+            paddingRight: 15,
+          },
+          headerTitleStyle: {
+            fontWeight: '500',
+            fontSize: 24,
+          },
+          headerRight: () => (
+            <Pressable
+              onPress={() => setUser(null)}
+              style={({pressed}) => [
+                {
+                  backgroundColor: pressed ? 'deepskyblue' : 'burlywood',
+                },
+                {
+                  paddingHorizontal: 10,
+                  borderRadius: 10,
+                  paddingVertical: 3,
+                },
+              ]}>
+              <Text style={{color: 'white'}}>Log Out</Text>
+            </Pressable>
+          ),
+        }}
       />
     </BottomStack.Navigator>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   ScrollView,
   Text,
@@ -35,7 +35,10 @@ const CloseItem = ({
   const setMiddleFilter = useSetRecoilState(clothMiddleListFilterState);
   const setBottomFilter = useSetRecoilState(clothBottomListFilterState);
 
+  const scrollRef = useRef<ScrollView>(null);
+
   const updateFilter = (item: string) => {
+    scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
     if (position === 'top') {
       setTopFilter(item);
     } else if (position === 'middle') {
@@ -44,6 +47,7 @@ const CloseItem = ({
       setBottomFilter(item);
     }
   };
+
   return (
     <View
       style={[
@@ -103,8 +107,9 @@ const CloseItem = ({
         ))}
       </View>
       <ScrollView
-        snapToInterval={370}
-        decelerationRate={0.85}
+        ref={scrollRef}
+        pagingEnabled
+        snapToStart
         showsHorizontalScrollIndicator={false}
         horizontal={true}>
         {itemList.length > 0 ? (

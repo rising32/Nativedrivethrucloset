@@ -15,7 +15,7 @@ export type ICloth = {
   color?: string;
   size?: string;
 };
-export type IOutfite = {
+export type IOutfit = {
   _id: string;
   title: string;
   userId: string;

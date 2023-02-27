@@ -1,11 +1,16 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {ScrollView} from 'react-native';
+import {useRecoilValue} from 'recoil';
+import {outfitState} from '../../recoil/atoms';
+import OutfitItem from './outfitItem/OutfitItem';
 
 const ProfileScreen = () => {
+  const outfitList = useRecoilValue(outfitState);
   return (
-    <View style={{flex: 1}}>
-      <Text>ProfileScreen</Text>
-    </View>
+    <ScrollView
+      contentContainerStyle={{alignItems: 'center', paddingBottom: 100}}>
+      <OutfitItem outfitList={outfitList} additionalStyle={{marginTop: 30}} />
+    </ScrollView>
   );
 };
 
