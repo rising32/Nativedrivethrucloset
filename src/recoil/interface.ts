@@ -16,9 +16,9 @@ export type ICloth = {
   size?: string;
 };
 export type IOutfit = {
-  _id: string;
+  _id?: string;
   title: string;
   userId: string;
-  totalPrice: string;
+  totalPrice: number;
   clothes: ICloth[];
 };

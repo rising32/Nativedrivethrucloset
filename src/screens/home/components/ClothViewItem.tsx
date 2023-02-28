@@ -6,46 +6,38 @@ import {
   Pressable,
   Image,
   ViewStyle,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
-import {useSetRecoilState} from 'recoil';
-import {
-  clothTopListFilterState,
-  clothMiddleListFilterState,
-  clothBottomListFilterState,
-} from '../../../recoil/atoms';
 import {ICloth} from '../../../recoil/interface';
 import {EmptyImg} from '../../../assets/images';
+import useCloth, {Position} from '../hooks/useCloth';
 
 type Props = {
   title: string;
-  position: 'top' | 'middle' | 'bottom';
+  position: Position;
   itemList: ICloth[];
   menuList: string[];
   additionalStyle?: ViewStyle;
 };
 
-const CloseItem = ({
+const ClothViewItem = ({
   title,
   position,
   itemList,
   menuList,
   additionalStyle,
 }: Props) => {
-  const setTopFilter = useSetRecoilState(clothTopListFilterState);
-  const setMiddleFilter = useSetRecoilState(clothMiddleListFilterState);
-  const setBottomFilter = useSetRecoilState(clothBottomListFilterState);
-
+  const {updateFilter, onSelectCloth} = useCloth();
   const scrollRef = useRef<ScrollView>(null);
-
-  const updateFilter = (item: string) => {
+  const onUpdateFilter = (item: string) => {
     scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
-    if (position === 'top') {
-      setTopFilter(item);
-    } else if (position === 'middle') {
-      setMiddleFilter(item);
-    } else {
-      setBottomFilter(item);
-    }
+    updateFilter(position, item);
+  };
+  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const index = Math.round(event.nativeEvent.contentOffset.x / 370);
+
+    onSelectCloth(position, index);
   };
 
   return (
@@ -94,7 +86,7 @@ const CloseItem = ({
             justifyContent: 'space-evenly',
           }}>
           {menuList.map(item => (
-            <Pressable key={item} onPress={() => updateFilter(item)}>
+            <Pressable key={item} onPress={() => onUpdateFilter(item)}>
               <Text
                 style={{
                   fontSize: 16,
@@ -117,7 +109,8 @@ const CloseItem = ({
           pagingEnabled
           snapToStart
           showsHorizontalScrollIndicator={false}
-          horizontal={true}>
+          horizontal={true}
+          onScroll={onScroll}>
           {itemList.length > 0 ? (
             itemList.map(item => (
               <View
@@ -151,4 +144,4 @@ const CloseItem = ({
   );
 };
 
-export default CloseItem;
+export default ClothViewItem;

@@ -19,7 +19,12 @@ export type ILoginRes = {
 };
 export type IOutfitData = {
   userId: string;
-  outfit: IOutfit[];
+  outfit: IOutfit;
+};
+export type IOutfitRes = {
+  success: boolean;
+  message: string;
+  outfits: IOutfit[];
 };
 // export const sendLogin = (data: LoginData) => {
 //   apiClient.post<ILoginRes>('/logIn', data).then(res => {
@@ -34,8 +39,8 @@ export const sendRegister = async (data: LoginData) => {
   const res = await apiClient.post<ILoginRes>('/signUp', data);
   return res.data;
 };
-export const sendNewOutfit = async (outfit: IOutfitData) => {
-  const res = await apiClient.post<IOutfit[]>('/saveOutfit', outfit);
+export const sendNewOutfit = async (data: IOutfitData) => {
+  const res = await apiClient.post<IOutfitRes>('/saveOutfit', data);
   return res.data;
 };
 
