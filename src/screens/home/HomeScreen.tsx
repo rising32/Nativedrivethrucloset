@@ -1,6 +1,13 @@
 import {format} from 'date-fns';
 import React, {useState} from 'react';
-import {Text, ScrollView, Pressable, View, TextInput} from 'react-native';
+import {
+  Text,
+  ScrollView,
+  Pressable,
+  View,
+  TextInput,
+  Dimensions,
+} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {
   clothTopListFilterState,
@@ -13,6 +20,7 @@ import {
 import CloseItem from './clothItem/CloseItem';
 import Modal from 'react-native-modal';
 
+const width = Dimensions.get('window').width;
 const HomeScreen = () => {
   const today = format(new Date(), 'dd/MM/yyyy k:m:s');
   const topList = useRecoilValue(filteredClothTopListState);
@@ -38,22 +46,15 @@ const HomeScreen = () => {
   return (
     <View
       style={{
-        flex: 1,
-        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
       }}>
       <ScrollView
         contentContainerStyle={{
-          alignItems: 'center',
           paddingBottom: 100,
-          width: '100%',
+          width,
         }}
-        showsVerticalScrollIndicator={false}
-        style={{
-          position: 'relative',
-        }}>
+        showsVerticalScrollIndicator={false}>
         <Text
           style={{
             fontSize: 16,

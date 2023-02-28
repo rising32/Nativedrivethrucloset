@@ -3,7 +3,7 @@ import WelcomeScreen from '../../screens/WelcomeScreen';
 import LoginScreen from '../../screens/auth/LoginScreen';
 import {PUBLICSCREENS, PublicRootStackParamList} from '../types';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import SignUpScreen from '../../screens/auth/SignupScreen';
+import SignUpScreen from '../../screens/auth/SignUpScreen';
 
 const PublicStack = createStackNavigator<PublicRootStackParamList>();
 
