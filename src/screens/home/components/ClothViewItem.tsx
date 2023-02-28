@@ -1,17 +1,9 @@
 import React, {useRef} from 'react';
-import {
-  ScrollView,
-  Text,
-  View,
-  Pressable,
-  Image,
-  ViewStyle,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from 'react-native';
+import {Text, View, Pressable, Image, ViewStyle} from 'react-native';
 import {ICloth} from '../../../recoil/interface';
 import {EmptyImg} from '../../../assets/images';
 import useCloth, {Position} from '../hooks/useCloth';
+import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 
 type Props = {
   title: string;
@@ -29,15 +21,10 @@ const ClothViewItem = ({
   additionalStyle,
 }: Props) => {
   const {updateFilter, onSelectCloth} = useCloth();
-  const scrollRef = useRef<ScrollView>(null);
+  const carouselRef = useRef<ICarouselInstance>(null);
   const onUpdateFilter = (item: string) => {
-    scrollRef.current?.scrollTo({x: 0, y: 0, animated: true});
+    carouselRef.current?.scrollTo({index: 0, animated: true});
     updateFilter(position, item);
-  };
-  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const index = Math.round(event.nativeEvent.contentOffset.x / 370);
-
-    onSelectCloth(position, index);
   };
 
   return (
@@ -104,17 +91,17 @@ const ClothViewItem = ({
             </Pressable>
           ))}
         </View>
-        <ScrollView
-          ref={scrollRef}
-          pagingEnabled
-          snapToStart
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          onScroll={onScroll}>
-          {itemList.length > 0 ? (
-            itemList.map(item => (
+        {itemList.length > 0 ? (
+          <Carousel
+            ref={carouselRef}
+            loop={false}
+            width={370}
+            height={400}
+            data={itemList}
+            scrollAnimationDuration={1000}
+            onSnapToItem={index => onSelectCloth(position, index)}
+            renderItem={({item}) => (
               <View
-                key={title + item._id}
                 style={{
                   alignItems: 'center',
                   padding: 10,
@@ -124,21 +111,14 @@ const ClothViewItem = ({
                   style={{width: 350, height: 350, resizeMode: 'contain'}}
                 />
               </View>
-            ))
-          ) : (
-            <View
-              key={title + '0'}
-              style={{
-                alignItems: 'center',
-                padding: 10,
-              }}>
-              <Image
-                source={EmptyImg}
-                style={{width: 350, height: 350, resizeMode: 'contain'}}
-              />
-            </View>
-          )}
-        </ScrollView>
+            )}
+          />
+        ) : (
+          <Image
+            source={EmptyImg}
+            style={{width: 350, height: 350, resizeMode: 'contain'}}
+          />
+        )}
       </View>
     </View>
   );

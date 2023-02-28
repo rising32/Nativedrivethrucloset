@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {ScrollView, Text, View, Image, ViewStyle} from 'react-native';
+import React, {useState, useRef} from 'react';
+import {Text, View, Image, ViewStyle} from 'react-native';
 import {IOutfit} from '../../../recoil/interface';
 import {EmptyImg} from '../../../assets/images';
 import FastImage from 'react-native-fast-image';
-
+import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 type Props = {
   outfitList: IOutfit[];
   additionalStyle?: ViewStyle;
@@ -11,6 +11,8 @@ type Props = {
 
 const OutfitItem = ({outfitList, additionalStyle}: Props) => {
   const [itemId, setItemId] = useState(0);
+
+  const carouselRef = useRef<ICarouselInstance>(null);
   return (
     <View
       style={[
@@ -40,17 +42,17 @@ const OutfitItem = ({outfitList, additionalStyle}: Props) => {
         }}>
         {outfitList[itemId].title}
       </Text>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        horizontal={true}
-        onScroll={event => {
-          setItemId(Math.round(event.nativeEvent.contentOffset.x / 370));
-        }}>
-        {outfitList.length > 0 ? (
-          outfitList.map(item => (
+      {outfitList.length > 0 ? (
+        <Carousel
+          ref={carouselRef}
+          loop={false}
+          width={370}
+          height={500}
+          data={outfitList}
+          scrollAnimationDuration={1000}
+          onSnapToItem={index => setItemId(index)}
+          renderItem={({item}) => (
             <View
-              key={item._id}
               style={{
                 alignItems: 'center',
                 paddingHorizontal: 10,
@@ -71,22 +73,27 @@ const OutfitItem = ({outfitList, additionalStyle}: Props) => {
                 style={{width: 350, height: 150}}
                 resizeMode={FastImage.resizeMode.contain}
               />
+              {/* <Image
+                source={{uri: item.clothes[0].url}}
+                style={{width: 350, height: 150, resizeMode: 'contain'}}
+              />
+              <Image
+                source={{uri: item.clothes[1].url}}
+                style={{width: 350, height: 150, resizeMode: 'contain'}}
+              />
+              <Image
+                source={{uri: item.clothes[2].url}}
+                style={{width: 350, height: 150, resizeMode: 'contain'}}
+              /> */}
             </View>
-          ))
-        ) : (
-          <View
-            key={'empty' + '0'}
-            style={{
-              alignItems: 'center',
-              padding: 10,
-            }}>
-            <Image
-              source={EmptyImg}
-              style={{width: 350, height: 350, resizeMode: 'contain'}}
-            />
-          </View>
-        )}
-      </ScrollView>
+          )}
+        />
+      ) : (
+        <Image
+          source={EmptyImg}
+          style={{width: 350, height: 350, resizeMode: 'contain'}}
+        />
+      )}
     </View>
   );
 };

@@ -39,14 +39,16 @@ export default function useCloth() {
   const [selectedBottomCloth, setSelectedBottomCloth] = useState<ICloth | null>(
     null,
   );
+  const [selectedTopClothID, setSelectedTopClothID] = useState(0);
 
   useEffect(() => {
+    console.log('selectedTopClothID = ', selectedTopClothID, topList.length);
     if (topList.length > 0) {
-      setSelectedTopCloth(topList[0]);
+      setSelectedTopCloth(topList[selectedTopClothID]);
     } else {
       setSelectedTopCloth(null);
     }
-  }, [topList]);
+  }, [topList, selectedTopClothID]);
   useEffect(() => {
     if (middleList.length > 0) {
       setSelectedMiddleCloth(middleList[0]);
@@ -72,8 +74,9 @@ export default function useCloth() {
     }
   };
   const onSelectCloth = (position: Position, index: number) => {
+    console.log('=========', position, index, topList.length);
     if (position === 'top') {
-      setSelectedTopCloth(topList[index]);
+      setSelectedTopClothID(index);
     } else if (position === 'middle') {
       setSelectedMiddleCloth(middleList[index]);
     } else {
@@ -97,8 +100,6 @@ export default function useCloth() {
           totalPrice,
           clothes: [selectedTopCloth, selectedMiddleCloth, selectedBottomCloth],
         };
-        console.log('=====', outfit);
-        // return 'success';
         const response = await sendNewOutfit({userId: user.id, outfit});
         if (response.success) {
           setOutfites(response.outfits);
@@ -124,5 +125,8 @@ export default function useCloth() {
     updateFilter,
     onSelectCloth,
     onSaveOutfit,
+    selectedTopCloth,
+    selectedMiddleCloth,
+    selectedBottomCloth,
   };
 }

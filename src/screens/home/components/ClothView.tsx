@@ -13,7 +13,18 @@ const ClothView = () => {
     topFilter,
     middleFilter,
     bottomFilter,
+    selectedTopCloth,
+    onSelectCloth,
   } = useCloth();
+
+  React.useEffect(() => {
+    console.log(
+      '_+_+_+_+_+_+_+_+',
+      selectedTopCloth?.name,
+      selectedTopCloth?.category,
+      selectedTopCloth?._id,
+    );
+  }, [selectedTopCloth, onSelectCloth]);
 
   return (
     <ScrollView

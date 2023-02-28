@@ -1,10 +1,15 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import Swiper from '../../components/Swiper';
 
 const CameraScreen = () => {
   return (
-    <View style={{flex: 1}}>
-      <Text>CameraScreen</Text>
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Swiper />
     </View>
   );
 };
