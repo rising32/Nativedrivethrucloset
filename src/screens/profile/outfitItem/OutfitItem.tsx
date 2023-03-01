@@ -49,7 +49,6 @@ const OutfitItem = ({outfitList, additionalStyle}: Props) => {
           width={370}
           height={500}
           data={outfitList}
-          scrollAnimationDuration={1000}
           onSnapToItem={index => setItemId(index)}
           renderItem={({item}) => (
             <View

@@ -98,7 +98,6 @@ const ClothViewItem = ({
             width={370}
             height={400}
             data={itemList}
-            scrollAnimationDuration={1000}
             onSnapToItem={index => onSelectCloth(position, index)}
             renderItem={({item}) => (
               <View
